@@ -6,6 +6,8 @@
 /*
 ===== Hypotheses =====
 */
+stos_technologiczny(webowy) :-
+    sugerowany_jezyk(java_script).
 
 /*
 ===== Symptomes =====
