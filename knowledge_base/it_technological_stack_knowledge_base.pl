@@ -61,23 +61,36 @@ spelnia_wymagania_jezyka(J) :-
     ((zdefiniowane(zastosowanie, Z), zastosowanie(J, Z)); nieznane(zastosowanie)), !.
 
 inicjlizuj_sugerowanie_stan_jezyka :- 
-    retractall(zdefiniowane(paradygmat, _)),
-    retractall(zdefiniowane(typowanie, _, _)),
-    retractall(zdefiniowane(zastosowanie,_)),
-    assertz(nieznane(paradygmat)),
-    assertz(nieznane(typowanie)),
-    assertz(nieznane(zastosowanie)).
+    wyczysc(paradygmat),
+    wyczysc(typowanie),
+    wyczysc(zastosowanie).
 
 definiuj(C, W) :- 
     retractall(nieznane(C)),
+    assertz(zdefiniowane(C,W)).
+
+redefiniuj(C, W) :- 
+    zdefiniowane(C,_),
+    retractall(zdefiniowane(C,_)),
     assertz(zdefiniowane(C,W)).
 
 definiuj(C, W1, W2) :- 
     retractall(nieznane(C)),
     assertz(zdefiniowane(C,W1,W2)).
 
+redefiniuj(C, W1, W2) :- 
+    zdefiniowane(C,_, _),
+    retractall(zdefiniowane(C,_, _)),
+    assertz(zdefiniowane(C,W1, W2)).
+
+wyczysc(C) :-
+    (retractall(zdefiniowane(C,_));
+    retractall(zdefiniowane(C,_, _))), 
+    assertz(nieznane(C)), !.
+
 inicjalizuj :- 
     inicjlizuj_sugerowanie_stan_jezyka.
+
 /*
 ===== Helpers =====
 */
