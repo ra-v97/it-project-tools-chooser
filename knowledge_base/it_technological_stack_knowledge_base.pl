@@ -38,7 +38,7 @@ przykald definiowania poziomu uzytkownika - domyslny poziom to uzytkownik_poczat
 ===== Hypotheses =====
 */
 stos_technologiczny(prosty_desktopowy) :-
-    (sugerowany_jezyk(python);sugerowany_jezyk(java)),
+    sugerowany_jezyk(python),
     sugerowana_metodyka_projektowa(lean).
 
 stos_technologiczny(zlozony_desktopowy) :-
@@ -166,17 +166,17 @@ inicjalizuj_sugerowanie_stan_jezyka :-
     wyczysc(typowanie),
     wyczysc(zastosowanie).
 
-uzytkownik_poczatkujacy :-
-    (zdefiniowane(uzytkownik, poczatkujacy),!);
-    (uzytkownik_sredniozaawansowany,!);
-    not(zdefiniowane(uzytkownik, _)),!.
+uzytkownik_zaawansowany :-
+    zdefiniowane(uzytkownik, zaawansowany),!.
 
 uzytkownik_sredniozaawansowany :-
     (zdefiniowane(uzytkownik, sredniozaawansowany),!);
     uzytkownik_zaawansowany,!.
 
-uzytkownik_zaawansowany :-
-    zdefiniowane(uzytkownik, zaawansowany),!.
+uzytkownik_poczatkujacy :-
+    (zdefiniowane(uzytkownik, poczatkujacy),!);
+    (uzytkownik_sredniozaawansowany,!);
+    not(zdefiniowane(uzytkownik, _)),!.
 
 liczebnosc_zespolu(duzy_zespol_projektowy) :- 
     zdefiniowane(liczba_czlonkow, N),
