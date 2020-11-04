@@ -37,15 +37,45 @@ przykald definiowania poziomu uzytkownika - domyslny poziom to uzytkownik_poczat
 /*
 ===== Hypotheses =====
 */
+stos_technologiczny(prosty_desktopowy) :-
+    (sugerowany_jezyk(python);sugerowany_jezyk(java)),
+    sugerowana_metodyka_projektowa(lean).
+
+stos_technologiczny(zlozony_desktopowy) :-
+    sugerowany_jezyk(java),
+    sugerowana_metodyka_projektowa(iterative_process).
+
+stos_technologiczny(prototyp_mobilny) :-
+    sugerowany_jezyk(java),
+    sugerowana_metodyka_projektowa(waterfall).
+
+stos_technologiczny(system_mobilny) :-
+    sugerowany_jezyk(java),
+    sugerowana_metodyka_projektowa(iterative_process).
+
+stos_technologiczny(zaawansowane_systemy_wbudowane) :-
+    sugerowany_jezyk(c),
+    sugerowana_metodyka_projektowa(scrum).
+
+stos_technologiczny(podstawowe_systemy_wbudowane) :-
+    sugerowany_jezyk(c),
+    sugerowana_metodyka_projektowa(extream_programming).
+
+stos_technologiczny(prototyp_webowy) :-
+    sugerowany_jezyk(java_script),
+    sugerowana_metodyka_projektowa(extream_programming).
+
 stos_technologiczny(webowy) :-
-    sugerowany_jezyk(java_script).
+    sugerowany_jezyk(java_script),
+    sugerowana_metodyka_projektowa(scrum).
 
-stos_technologiczny(desktopowy) :-
-    sugerowany_jezyk(java); 
-    sugerowany_jezyk(python).
+stos_technologiczny(zaawansowany_system_rozproszony) :-
+    sugerowany_jezyk(java),
+    sugerowana_metodyka_projektowa(iterative_process). 
 
-stos_technologiczny(systemy_wbudowane) :-
-    sugerowany_jezyk(c).
+stos_technologiczny(system_uczenia_maszynowego) :-
+    sugerowany_jezyk(python),
+    sugerowana_metodyka_projektowa(lean).
 
 /*
 ===== Symptomes =====
@@ -66,6 +96,27 @@ sugerowany_jezyk(c) :-
     spelnia_wymagania_jezyka(c),
     uzytkownik_zaawansowany.
 
+sugerowana_metodyka_projektowa(scrum) :-
+    (planowany_czas_prac(projekt_dlugoterminowy); planowany_czas_prac(projekt_dwuletni)),
+    liczebnosc_zespolu(standardowy_zespol_projektowy),!.
+
+sugerowana_metodyka_projektowa(lean) :-
+    (liczebnosc_zespolu(standardowy_zespol_projektowy);
+    liczebnosc_zespolu(maly_zespol_projektowy)),
+    (planowany_czas_prac(projekt_roczny);
+    planowany_czas_prac(projekt_dwuletni)),!.
+
+sugerowana_metodyka_projektowa(iterative_process) :-
+    liczebnosc_zespolu(duzy_zespol_projektowy),
+    planowany_czas_prac(projekt_dlugoterminowy).
+
+sugerowana_metodyka_projektowa(waterfall) :-
+    planowany_czas_prac(projekt_szybki),
+    liczebnosc_zespolu(mikro_zespol_projektowy),!.
+
+sugerowana_metodyka_projektowa(extream_programming) :-
+    (planowany_czas_prac(projekt_szybki) ; planowany_czas_prac(projekt_roczny)),
+    liczebnosc_zespolu(maly_zespol_projektowy),!.
 /*
 ===== Facts =====
 */
@@ -115,42 +166,73 @@ inicjalizuj_sugerowanie_stan_jezyka :-
     wyczysc(typowanie),
     wyczysc(zastosowanie).
 
-uzytkownik_zaawansowany :-
-    zdefiniowane(uzytkownik, zaawansowany).
+uzytkownik_poczatkujacy :-
+    (zdefiniowane(uzytkownik, poczatkujacy),!);
+    (uzytkownik_sredniozaawansowany,!);
+    not(zdefiniowane(uzytkownik, _)),!.
 
 uzytkownik_sredniozaawansowany :-
-    zdefiniowane(uzytkownik, sredniozaawansowany).
+    (zdefiniowane(uzytkownik, sredniozaawansowany),!);
+    uzytkownik_zaawansowany,!.
 
-uzytkownik_poczatkujacy :-
-    zdefiniowane(uzytkownik, poczatkujacy) ;
-    not(zdefiniowane(uzytkownik, _)).
+uzytkownik_zaawansowany :-
+    zdefiniowane(uzytkownik, zaawansowany),!.
 
-definiuj(C, W) :- 
+liczebnosc_zespolu(duzy_zespol_projektowy) :- 
+    zdefiniowane(liczba_czlonkow, N),
+    integer(N),
+    N > 15,!.
+
+liczebnosc_zespolu(standardowy_zespol_projektowy) :- 
+    (zdefiniowane(liczba_czlonkow, N), integer(N), N > 8);
+    not(zdefiniowane(liczba_czlonkow, _)),!.
+
+liczebnosc_zespolu(maly_zespol_projektowy)  :-
+    zdefiniowane(liczba_czlonkow, N), integer(N), N > 3,!.
+
+liczebnosc_zespolu(mikro_zespol_projektowy) :-
+    zdefiniowane(liczba_czlonkow, _),!.
+
+planowany_czas_prac(projekt_dlugoterminowy) :-
+    zdefiniowane(miesiace_pracy, M), integer(M), M >= 24,!.
+
+planowany_czas_prac(projekt_dwuletni) :-
+    (zdefiniowane(miesiace_pracy, M), integer(M), M >= 12);
+    not(zdefiniowane(miesiace_pracy, _)),!.
+
+planowany_czas_prac(projekt_roczny) :-
+    zdefiniowane(miesiace_pracy, M), integer(M), M >= 4,!.
+
+planowany_czas_prac(projekt_szybki) :-
+    zdefiniowane(miesiace_pracy, _).
+
+definiuj(C, W) :-
+    not(zdefiniowane(C,W)), 
     retractall(nieznane(C)),
     retractall(wykluczone(C, W)),
-    assertz(zdefiniowane(C,W)).
+    assertz(zdefiniowane(C,W)),!.
 
 redefiniuj(C, W) :- 
     zdefiniowane(C,_),
     retractall(zdefiniowane(C,_)),
-    assertz(zdefiniowane(C,W)).
+    assertz(zdefiniowane(C,W)),!.
 
 definiuj(C, W1, W2) :- 
     retractall(nieznane(C)),
     retractall(wykluczone(C, W1)),
     retractall(wykluczone(C, W2)),
-    assertz(zdefiniowane(C, W1, W2)).
+    assertz(zdefiniowane(C, W1, W2)),!.
 
 redefiniuj(C, W1, W2) :- 
     zdefiniowane(C,_, _),
     retractall(zdefiniowane(C,_, _)),
-    assertz(zdefiniowane(C,W1, W2)).
+    assertz(zdefiniowane(C,W1, W2)),!.
 
 wyklucz(C, W) :-
     retractall(zdefiniowane(C, W)),
     retractall(zdefiniowane(C, W, _)),
     retractall(zdefiniowane(C, _, W)),
-    assertz(wykluczone(C, W)).
+    assertz(wykluczone(C, W)),!.
 
 wyczysc(C) :-
     (retractall(zdefiniowane(C,_));
