@@ -31,8 +31,8 @@ przyklad okreslenia typowania
 przyklad wykluczenia  paradygmatu
 ?- wyklucz(paradygmat, obiektowy).
 
-przykald definiowania poziomu uzytkownika - domyslny poziom to uzytkownik_poczatkujacy
-?- definiuj(uzytkownik, uzytkownik_sredniozaawansowany).
+przyklad definiowania poziomu uzytkownika - domyslny poziom to uzytkownik poczatkujacy
+?- definiuj(uzytkownik, sredniozaawansowany).
 
 */
 
