@@ -274,7 +274,7 @@ planowany_czas_prac(projekt_dlugoterminowy) :-
 planowany_czas_prac(projekt_dwuletni) :-
     zdefiniowane(miesiace_pracy, M), 
     integer(M), 
-    minimmalny_czas_projektu_dwuletniego(T),
+    minimalny_czas_projektu_dwuletniego(T),
     M >= T, !.
 
 planowany_czas_prac(projekt_dwuletni) :-
