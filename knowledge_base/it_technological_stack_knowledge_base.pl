@@ -2,10 +2,20 @@
   [
     sugerowany_stos_technologiczny/1,
     sugerowany_jezyk/1,
-    sugerowana_metodyka_projektowa/1
+    sugerowana_metodyka_projektowa/1,
+    zdefiniowane/2,
+    zdefiniowane/3,
+    wykluczone/2,
+    nieznane/1
   ]).
 
 :- use_module(basic_facts).
+
+:- dynamic
+        zdefiniowane/2,
+        zdefiniowane/3,
+        wykluczone/2,
+        nieznane/1.
 
 /*
 ===== Hypotheses =====

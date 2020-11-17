@@ -1,11 +1,5 @@
 :- use_module(it_technological_stack_knowledge_base).
 
-:- dynamic
-        zdefiniowane/2,
-        zdefiniowane/3,
-        wykluczone/2,
-        nieznane/1.
-
 /*
 ===== Jak dziala program =====
 1. zaimportuj baze wiedzy do prologa ?- [stack_supervisor_engine].
