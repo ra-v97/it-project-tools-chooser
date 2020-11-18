@@ -70,4 +70,8 @@ inicjalizuj :-
 inicjalizuj_sugerowanie_jezyka :- 
     wyczysc(paradygmat),
     wyczysc(typowanie),
+    wyczysc(forma_projektu),
+    wyczysc(uzytkownik),
+    wyczysc(miesiace_pracy),
+    wyczysc(liczba_czlonkow),
     wyczysc(zastosowanie).

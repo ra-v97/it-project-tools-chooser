@@ -34,7 +34,7 @@ metodyka_projektowa(scrum).
 metodyka_projektowa(lean).
 metodyka_projektowa(iterative_process).
 metodyka_projektowa(waterfall).
-metodyka_projektowa(extream_programming).
+metodyka_projektowa(extreme_programming).
 
 rodzaj_typowania_jezyka(statyczne).
 rodzaj_typowania_jezyka(dynamiczne).

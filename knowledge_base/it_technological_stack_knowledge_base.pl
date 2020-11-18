@@ -42,11 +42,11 @@ sugerowany_stos_technologiczny(zaawansowane_systemy_wbudowane) :-
 
 sugerowany_stos_technologiczny(podstawowe_systemy_wbudowane) :-
     sugerowany_jezyk(c),
-    sugerowana_metodyka_projektowa(extream_programming).
+    sugerowana_metodyka_projektowa(extreme_programming).
 
 sugerowany_stos_technologiczny(prototyp_webowy) :-
     sugerowany_jezyk(java_script),
-    sugerowana_metodyka_projektowa(extream_programming).
+    sugerowana_metodyka_projektowa(extreme_programming).
 
 sugerowany_stos_technologiczny(webowy) :-
     sugerowany_jezyk(java_script),
@@ -111,11 +111,11 @@ sugerowana_metodyka_projektowa(waterfall) :-
     planowany_czas_prac(projekt_szybki),
     liczebnosc_zespolu(mikro_zespol_projektowy).
 
-sugerowana_metodyka_projektowa(extream_programming) :-
+sugerowana_metodyka_projektowa(extreme_programming) :-
     planowany_czas_prac(projekt_roczny),
     liczebnosc_zespolu(maly_zespol_projektowy),!.
 
-sugerowana_metodyka_projektowa(extream_programming) :-
+sugerowana_metodyka_projektowa(extreme_programming) :-
     planowany_czas_prac(projekt_szybki),
     liczebnosc_zespolu(maly_zespol_projektowy).
 
