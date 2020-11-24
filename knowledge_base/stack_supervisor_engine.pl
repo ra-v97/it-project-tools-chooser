@@ -51,7 +51,7 @@ definiuj(C, W1, W2) :-
     assertz(zdefiniowane(C, W1, W2)), !.
 
 redefiniuj(C, W1, W2) :- 
-    zdefiniowane(C,_, _),
+    zdefiniowane(C, _, _),
     retractall(zdefiniowane(C,_, _)),
     assertz(zdefiniowane(C,W1, W2)), !.
 
@@ -62,8 +62,8 @@ wyklucz(C, W) :-
     assertz(wykluczone(C, W)), !.
 
 wyczysc(C) :-
-    (retractall(zdefiniowane(C,_));
-    retractall(zdefiniowane(C,_, _))),
+    retractall(zdefiniowane(C, _)),
+    retractall(zdefiniowane(C,_ , _)),
     retractall(wykluczone(C, _)), 
     assertz(nieznane(C)), !.
 
