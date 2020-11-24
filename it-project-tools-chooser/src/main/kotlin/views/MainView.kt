@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.RadioButton
 import javafx.scene.control.Toggle
 import javafx.scene.layout.Pane
+import javafx.scene.text.FontWeight
 import pl.edu.agh.it.tools.controllers.SurveyController
 import pl.edu.agh.it.tools.models.Answer
 import pl.edu.agh.it.tools.models.Question
@@ -19,16 +20,16 @@ class MainView : View() {
     private val controller: SurveyController by inject()
 
     override val root = vbox(20) {
+        style {
+            padding = box(10.px, 10.px, 20.px, 10.px)
+        }
+
         val answers = questions.chunked(4).flatMap { questions ->
             val x: MutableList<Pair<Question, ReadOnlyProperty<out Any>>> = mutableListOf()
             hbox(30) {
                 questions.forEach {
                     vbox(10) {
                         renderQuestion(it).let { x.add(it) }
-                        style {
-//                            borderColor += box(Color.BLACK)
-//                            borderWidth += box(1.px)
-                        }
                     }
                 }
             }
@@ -37,6 +38,7 @@ class MainView : View() {
 
         val resultLanguage = SimpleStringProperty()
         val resultMethodology = SimpleStringProperty()
+        val resultStack = SimpleStringProperty()
 
         @Suppress("UNCHECKED_CAST")
         button("Sprawdź") {
@@ -49,12 +51,6 @@ class MainView : View() {
                                 Answer.OptionAnswer(question, setOfNotNull(value))
                             }
 
-                            is Question.MultiAnswer -> {
-                                TODO()
-//                            val value = (((prop as ReadOnlyObjectProperty<Toggle>).get() as Checkbox).userData as Map<String, Question.Option?>)?.getOrDefault(optionString, null)
-//                            Answer.OptionAnswer(question, setOfNotNull(value))
-                            }
-
                             is Question.NumericalAnswer -> {
                                 (prop as? ReadOnlyProperty<String>)?.value?.takeIf { it.isNotBlank() }?.toInt()?.let {
                                     Answer.NumericAnswer(question, it)
@@ -65,23 +61,47 @@ class MainView : View() {
                     }.let {
                         controller.getSuggestedItems(it.filterNotNull().toSet())
                     }
-                } ui { (lang, method) ->
+                } ui { (lang, method, stack) ->
                     val suggestedLanguage = lang.joinToString(", ").takeIf { it.isNotBlank() } ?: "Nie znaleziono"
                     resultLanguage.set(suggestedLanguage)
 
                     val suggestedMethodology = method.joinToString(", ").takeIf { it.isNotBlank() } ?: "Nie znaleziono"
                     resultMethodology.set(suggestedMethodology)
+
+                    val suggestedStack = stack.joinToString(", ").takeIf { it.isNotBlank() } ?: "Nie znaleziono"
+                    resultStack.set(suggestedStack)
                 }
             }
         }
 
         hbox {
-            text("Sugerowany język: ")
+            text("Sugerowany język: ") {
+                style {
+                    fontFamily = "sans-serif"
+                    fontWeight = FontWeight.EXTRA_BOLD
+                }
+            }
             text(resultLanguage)
         }
+
         hbox {
-            text("Sugerowana metodyka: ")
+            text("Sugerowana metodyka: ") {
+                style {
+                    fontFamily = "sans-serif"
+                    fontWeight = FontWeight.EXTRA_BOLD
+                }
+            }
             text(resultMethodology)
+        }
+
+        hbox {
+            text("Sugerowany stos technologiczny: ") {
+                style {
+                    fontFamily = "sans-serif"
+                    fontWeight = FontWeight.EXTRA_BOLD
+                }
+            }
+            text(resultStack)
         }
     }
 
@@ -97,18 +117,10 @@ class MainView : View() {
                     }
                     radiobutton(notSure) {
                         userData = mapOf(optionString to null)
+                        isSelected = true
                     }
                 }.selectedToggleProperty()
 
-            is Question.MultiAnswer -> {
-                togglegroup {
-                    question.options.forEach {
-                        checkbox(it.text) {
-                            userData = mapOf(optionString to it)
-                        }
-                    }
-                }.selectedToggleProperty()
-            }
             is Question.NumericalAnswer -> {
                 textfield().textProperty() as ReadOnlyProperty<String>
             }

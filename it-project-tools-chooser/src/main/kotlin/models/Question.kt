@@ -12,12 +12,6 @@ sealed class Question {
             override val serializableName: String,
     ): Question()
 
-    data class MultiAnswer(
-            override val text: String,
-            val options: Collection<Option>,
-            override val serializableName: String,
-    ): Question()
-
     data class NumericalAnswer(
             override val text: String,
             override val serializableName: String,
