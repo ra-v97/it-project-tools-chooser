@@ -26,5 +26,6 @@ tasks {
 
 application {
     mainClassName = "pl.edu.agh.it.tools.MainKt"
-    applicationDefaultJvmArgs = listOf("-Djava.library.path=/usr/local/Cellar/swi-prolog/8.2.2/libexec/lib/swipl/lib/") // TODO: This has point to a correct location, see the relevant section for your system at https://jpl7.org/Deployment
+    val jpl_path: String by project
+    applicationDefaultJvmArgs = listOf("-Djava.library.path=$jpl_path")
 }

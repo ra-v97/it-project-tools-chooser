@@ -34,9 +34,9 @@ class KnowledgeBaseConnection {
             }
         }
         val x = Variable("X")
-        val lang = Query("sugerowany_jezyk", arrayOf(x)).allSolutions().map { s -> s["X"].toString().snakeToCamelCase() }.distinct().also(::println)
-        val method = Query("sugerowana_metodyka_projektowa", arrayOf(x)).allSolutions().map { s -> s["X"].toString().snakeToCamelCase() }.distinct().also(::println)
-        val stack = Query("sugerowany_stos_technologiczny", arrayOf(x)).allSolutions().map { s -> s["X"].toString().snakeToString() }.distinct().also(::println)
+        val lang = Query("sugerowany_jezyk", arrayOf(x)).allSolutions().map { s -> s["X"].toString().snakeToCamelCase() }.distinct()
+        val method = Query("sugerowana_metodyka_projektowa", arrayOf(x)).allSolutions().map { s -> s["X"].toString().snakeToCamelCase() }.distinct()
+        val stack = Query("sugerowany_stos_technologiczny", arrayOf(x)).allSolutions().map { s -> s["X"].toString().snakeToString() }.distinct()
 
         return KnowledgeResult(lang, method, stack)
     }
