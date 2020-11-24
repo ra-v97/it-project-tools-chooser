@@ -21,7 +21,7 @@ class MainView : View() {
 
     override val root = vbox(20) {
         style {
-            padding = box(10.px, 10.px, 20.px, 10.px)
+            padding = box(10.px, 10.px, 50.px, 10.px)
         }
 
         val answers = questions.chunked(4).flatMap { questions ->
@@ -101,7 +101,13 @@ class MainView : View() {
                     fontWeight = FontWeight.EXTRA_BOLD
                 }
             }
-            text(resultStack)
+            textflow {
+                style {
+                    maxWidth = getMaxWidth().px
+                    wrapText = true
+                }
+                text(resultStack)
+            }
         }
     }
 

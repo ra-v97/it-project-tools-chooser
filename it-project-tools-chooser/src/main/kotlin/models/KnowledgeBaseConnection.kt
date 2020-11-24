@@ -3,17 +3,15 @@ package pl.edu.agh.it.tools.models
 import org.jpl7.*
 
 class KnowledgeBaseConnection {
-    init {
+    fun submitAnswers(answers: Set<Answer>): KnowledgeResult {
         JPL.init()
         Query("consult", arrayOf(Atom("../knowledge_base/stack_supervisor_engine.pl"))).apply {
             hasSolution()
             close()
         }
-    }
 
-    fun submitAnswers(answers: Set<Answer>): KnowledgeResult {
         Query("inicjalizuj", emptyArray()).apply {
-            hasSolution()
+            hasSolution().also(::println)
             close()
         }
 
@@ -34,9 +32,9 @@ class KnowledgeBaseConnection {
             }
         }
         val x = Variable("X")
-        val lang = Query("sugerowany_jezyk", arrayOf(x)).allSolutions().map { s -> s["X"].toString().snakeToCamelCase() }.distinct()
-        val method = Query("sugerowana_metodyka_projektowa", arrayOf(x)).allSolutions().map { s -> s["X"].toString().snakeToCamelCase() }.distinct()
-        val stack = Query("sugerowany_stos_technologiczny", arrayOf(x)).allSolutions().map { s -> s["X"].toString().snakeToString() }.distinct()
+        val lang = Query("sugerowany_jezyk", arrayOf(x)).allSolutions().map { s -> s["X"].toString().snakeToCamelCase() }.distinct().also(::println)
+        val method = Query("sugerowana_metodyka_projektowa", arrayOf(x)).allSolutions().map { s -> s["X"].toString().snakeToCamelCase() }.distinct().also(::println)
+        val stack = Query("sugerowany_stos_technologiczny", arrayOf(x)).allSolutions().map { s -> s["X"].toString().snakeToString() }.distinct().also(::println)
 
         return KnowledgeResult(lang, method, stack)
     }
