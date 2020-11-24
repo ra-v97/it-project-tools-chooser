@@ -31,7 +31,7 @@ przyklad definiowania poziomu uzytkownika - domyslny poziom to uzytkownik poczat
 */
 
 /*
-===== Rules (8) =====
+===== Rules (9) =====
 */
 definiuj(C, W) :-
     not(zdefiniowane(C,W)), 
@@ -68,13 +68,15 @@ wyczysc(C) :-
     assertz(nieznane(C)), !.
 
 inicjalizuj :- 
-    inicjalizuj_sugerowanie_jezyka.
+    inicjalizuj_sugerowanie_jezyka, 
+    inicjalizuj_sugerowanie_metodyki_projektowej.
 
 inicjalizuj_sugerowanie_jezyka :- 
     wyczysc(paradygmat),
     wyczysc(typowanie),
-    wyczysc(forma_projektu),
-    wyczysc(uzytkownik),
+    wyczysc(zastosowanie),
+    wyczysc(uzytkownik).
+
+inicjalizuj_sugerowanie_metodyki_projektowej :-
     wyczysc(miesiace_pracy),
-    wyczysc(liczba_czlonkow),
-    wyczysc(zastosowanie).
+    wyczysc(liczba_czlonkow).
