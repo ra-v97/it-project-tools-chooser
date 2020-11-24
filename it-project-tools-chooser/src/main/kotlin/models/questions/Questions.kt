@@ -30,7 +30,6 @@ val languageApplication = Question.SingleAnswer("Typ projektu", setOf(
         Question.Option("System rozproszony", "system_rozproszone"),
         Question.Option("Machine learning", "machine_learning"),
         Question.Option("Symulacja komputerowa", "symulacje_komputerowe"),
-        Question.Option("Ogólnego przeznaczenia", "ogolnego_przeznaczenia"),
 ),
         "zastosowanie"
 )
