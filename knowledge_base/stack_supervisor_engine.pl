@@ -1,4 +1,4 @@
-:- use_module(it_technological_stack_knowledge_base).
+:- use_module(it_stack_knowledge_base).
 
 /*
 ===== Jak dziala program =====
@@ -30,6 +30,9 @@ przyklad definiowania poziomu uzytkownika - domyslny poziom to uzytkownik poczat
 
 */
 
+/*
+===== Rules (8) =====
+*/
 definiuj(C, W) :-
     not(zdefiniowane(C,W)), 
     retractall(nieznane(C)),

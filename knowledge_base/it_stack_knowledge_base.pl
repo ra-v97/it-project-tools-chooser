@@ -1,4 +1,4 @@
-:- module(it_technological_stack_knowledge_base,
+:- module(it_stack_knowledge_base,
   [
     sugerowany_stos_technologiczny/1,
     sugerowany_jezyk/1,
@@ -9,7 +9,7 @@
     nieznane/1
   ]).
 
-:- use_module(basic_facts).
+:- use_module(domain_facts).
 
 :- dynamic
         zdefiniowane/2,
@@ -18,7 +18,18 @@
         nieznane/1.
 
 /*
-===== Hypotheses =====
+===== Magic  numbers (6)=====
+*/
+minimalny_czas_projektu_dlugoterminowego(24).
+minimalny_czas_projektu_dwuletniego(12).
+minimalny_czas_projektu_rocznego(4).
+
+minimalna_liczba_czlonkow_duzego_zespolu(15).
+minimalna_liczba_czlonkow_standardowego_zespolu(8).
+minimalna_liczba_czlonkow_malego_zespolu(3).
+
+/*
+===== Hypotheses (10) =====
 */
 sugerowany_stos_technologiczny(prosty_desktopowy) :-
     sugerowany_jezyk(python),
@@ -61,7 +72,7 @@ sugerowany_stos_technologiczny(system_uczenia_maszynowego) :-
     sugerowana_metodyka_projektowa(lean).
 
 /*
-===== Symptomes =====
+===== Indirect facts (14) =====
 */
 sugerowany_jezyk(java) :- 
     spelnia_wymagania_jezyka(java),
@@ -120,50 +131,7 @@ sugerowana_metodyka_projektowa(extreme_programming) :-
     liczebnosc_zespolu(maly_zespol_projektowy).
 
 /*
-===== Facts =====
-*/
-paradygmat(java, obiektowy).
-paradygmat(python, obiektowy).
-paradygmat(python, imperatywny).
-paradygmat(java_script, obiektowy).
-paradygmat(java_script, funkcyjny).
-paradygmat(c, imperatywny).
-
-typowanie(java, statyczne, silne).
-typowanie(python, dynamiczne, silne).
-typowanie(c, statyczne, slabe).
-typowanie(java_script, dynamiczne, slabe).
-
-zastosowanie(java, aplikacje_mobilne).
-zastosowanie(java, aplikacje_webowe).
-zastosowanie(java, system_rozproszone).
-zastosowanie(java, aplikacje_desktopowe).
-zastosowanie(python, prototypowanie).
-zastosowanie(python, machine_learning).
-zastosowanie(python, aplikacje_desktopowe).
-zastosowanie(python, aplikacje_webowe).
-zastosowanie(c, systemy_wbudowane).
-zastosowanie(c, symulacje_komputerowe).
-zastosowanie(java_script, aplikacje_webowe).
-zastosowanie(J, ogolnego_przeznaczenia) :- aggregate_all(count, zastosowanie(J, _), N), 
-    minimalna_liczba_zastosowan_dla_ogolnego_przenznaczenia(M),
-    N >=  M, !.
-
-/*
-===== Magic  numbers =====
-*/
-minimalna_liczba_zastosowan_dla_ogolnego_przenznaczenia(3).
-
-minimalny_czas_projektu_dlugoterminowego(24).
-minimalny_czas_projektu_dwuletniego(12).
-minimalny_czas_projektu_rocznego(4).
-
-minimalna_liczba_czlonkow_duzego_zespolu(15).
-minimalna_liczba_czlonkow_standardowego_zespolu(8).
-minimalna_liczba_czlonkow_malego_zespolu(3).
-
-/*
-===== Rules =====
+===== Rules (30) =====
 */
 dopuszczenie_jezyka(J) :-
     dopuszczenie_jezyka_paradygmat(J),
@@ -223,24 +191,6 @@ spelnia_wymagania_jezyka_zastosowanie(J) :-
     zdefiniowane(zastosowanie, Z), 
     zastosowanie(J, Z).
 
-uzytkownik_zaawansowany :-
-    zdefiniowane(uzytkownik, zaawansowany).
-
-uzytkownik_sredniozaawansowany :-
-    uzytkownik_zaawansowany, !.
-
-uzytkownik_sredniozaawansowany :-
-    zdefiniowane(uzytkownik, sredniozaawansowany).
-
-uzytkownik_poczatkujacy :-
-    uzytkownik_sredniozaawansowany, !.
-
-uzytkownik_poczatkujacy :-
-    zdefiniowane(uzytkownik, poczatkujacy),!.
-
-uzytkownik_poczatkujacy :-
-    not(zdefiniowane(uzytkownik, _)).
-
 liczebnosc_zespolu(duzy_zespol_projektowy) :- 
     zdefiniowane(liczba_czlonkow, N),
     integer(N),
@@ -288,6 +238,24 @@ planowany_czas_prac(projekt_roczny) :-
 
 planowany_czas_prac(projekt_szybki) :-
     zdefiniowane(miesiace_pracy, _).
+
+uzytkownik_zaawansowany :-
+    zdefiniowane(uzytkownik, zaawansowany).
+
+uzytkownik_sredniozaawansowany :-
+    uzytkownik_zaawansowany, !.
+
+uzytkownik_sredniozaawansowany :-
+    zdefiniowane(uzytkownik, sredniozaawansowany).
+
+uzytkownik_poczatkujacy :-
+    uzytkownik_sredniozaawansowany, !.
+
+uzytkownik_poczatkujacy :-
+    zdefiniowane(uzytkownik, poczatkujacy),!.
+
+uzytkownik_poczatkujacy :-
+    not(zdefiniowane(uzytkownik, _)).
 
 /*
 ===== Helpers =====
