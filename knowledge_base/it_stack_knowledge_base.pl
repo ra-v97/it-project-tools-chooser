@@ -257,8 +257,3 @@ uzytkownik_poczatkujacy :-
 uzytkownik_poczatkujacy :-
     zdefiniowane(uzytkownik, poczatkujacy),!.
 
-/*
-===== Helpers =====
-*/
-len([] , 0 ) :- !.
-len([_|X], L) :- len(X,N), L is N+1.

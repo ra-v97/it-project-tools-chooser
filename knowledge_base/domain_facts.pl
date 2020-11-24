@@ -14,12 +14,6 @@
     typ_uzytkownika/1
   ]).
 
-
-/*
-===== Magic  numbers (1)=====
-*/
-minimalna_liczba_zastosowan_dla_ogolnego_przenznaczenia(3).
-
 /*
 ===== Symptomes (27) =====
 */
@@ -57,7 +51,7 @@ typ_uzytkownika(uzytkownik_sredniozaawansowany).
 typ_uzytkownika(uzytkownik_poczatkujacy).
 
 /*
-===== Basic Facts (40 + 1rule)=====
+===== Basic Facts (40)=====
 */
 stos_technologiczny(prosty_desktopowy).
 stos_technologiczny(zlozony_desktopowy).
@@ -104,6 +98,3 @@ zastosowanie(python, aplikacje_webowe).
 zastosowanie(c, systemy_wbudowane).
 zastosowanie(c, symulacje_komputerowe).
 zastosowanie(java_script, aplikacje_webowe).
-zastosowanie(J, ogolnego_przeznaczenia) :- aggregate_all(count, zastosowanie(J, _), N), 
-    minimalna_liczba_zastosowan_dla_ogolnego_przenznaczenia(M),
-    N >=  M, !.
