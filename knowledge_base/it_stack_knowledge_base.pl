@@ -240,7 +240,7 @@ planowany_czas_prac(projekt_szybki) :-
     zdefiniowane(miesiace_pracy, _).
 
 uzytkownik_zaawansowany :-
-    zdefiniowane(uzytkownik, zaawansowany).
+    zdefiniowane(uzytkownik, zaawansowany), !.
 
 uzytkownik_zaawansowany :-
     not(zdefiniowane(uzytkownik, _)).
@@ -256,7 +256,7 @@ uzytkownik_poczatkujacy :-
 
 uzytkownik_poczatkujacy :-
     zdefiniowane(uzytkownik, poczatkujacy),!.
-    
+
 /*
 ===== Helpers =====
 */
