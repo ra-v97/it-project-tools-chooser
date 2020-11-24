@@ -25,10 +25,6 @@ class MainView : View() {
                 questions.forEach {
                     vbox(10) {
                         renderQuestion(it).let { x.add(it) }
-                        style {
-//                            borderColor += box(Color.BLACK)
-//                            borderWidth += box(1.px)
-                        }
                     }
                 }
             }
@@ -37,6 +33,7 @@ class MainView : View() {
 
         val resultLanguage = SimpleStringProperty()
         val resultMethodology = SimpleStringProperty()
+        val resultStack = SimpleStringProperty()
 
         @Suppress("UNCHECKED_CAST")
         button("Sprawdź") {
@@ -65,12 +62,15 @@ class MainView : View() {
                     }.let {
                         controller.getSuggestedItems(it.filterNotNull().toSet())
                     }
-                } ui { (lang, method) ->
+                } ui { (lang, method, stack) ->
                     val suggestedLanguage = lang.joinToString(", ").takeIf { it.isNotBlank() } ?: "Nie znaleziono"
                     resultLanguage.set(suggestedLanguage)
 
                     val suggestedMethodology = method.joinToString(", ").takeIf { it.isNotBlank() } ?: "Nie znaleziono"
                     resultMethodology.set(suggestedMethodology)
+
+                    val suggestedStack = stack.joinToString(", ").takeIf { it.isNotBlank() } ?: "Nie znaleziono"
+                    resultStack.set(suggestedStack)
                 }
             }
         }
@@ -82,6 +82,10 @@ class MainView : View() {
         hbox {
             text("Sugerowana metodyka: ")
             text(resultMethodology)
+        }
+        hbox {
+            text("Sugerowany stos technologiczny: ")
+            text(resultStack)
         }
     }
 
@@ -97,6 +101,7 @@ class MainView : View() {
                     }
                     radiobutton(notSure) {
                         userData = mapOf(optionString to null)
+                        isSelected = true
                     }
                 }.selectedToggleProperty()
 

@@ -1,5 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.4.10"
+    kotlin("jvm") version "1.4.20"
+    application
 }
 
 group = "pl.edu.agh"
@@ -12,11 +13,9 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
+    implementation(kotlin("stdlib-jdk8"))
     implementation("no.tornado:tornadofx:1.7.20")
     implementation("com.github.SWI-Prolog:packages-jpl:V8.3.2")
-//    implementation("jpl:jpl:7.6.1")
-//    implementation(file("/usr/local/Cellar/swi-prolog/8.2.2/libexec/lib/swipl/lib/x86_64-darwin/"))
 }
 
 tasks {
@@ -25,3 +24,7 @@ tasks {
     }
 }
 
+application {
+    mainClassName = "pl.edu.agh.it.tools.MainKt"
+    applicationDefaultJvmArgs = listOf("-Djava.library.path=/usr/local/Cellar/swi-prolog/8.2.2/libexec/lib/swipl/lib/") // TODO: This has point to a correct location, see the relevant section for your system at https://jpl7.org/Deployment
+}

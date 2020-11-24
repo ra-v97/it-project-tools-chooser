@@ -3,27 +3,42 @@ package pl.edu.agh.it.tools.models
 import org.jpl7.*
 
 class KnowledgeBaseConnection {
-
-    fun submitAnswers(answers: Set<Answer>): Pair<List<String>, List<String>> {
+    init {
         JPL.init()
-        Query("consult", arrayOf(Atom("../knowledge_base/stack_supervisor_engine.pl"))).hasSolution()
-        Query("inicjalizuj", emptyArray()).hasSolution()
+        Query("consult", arrayOf(Atom("../knowledge_base/stack_supervisor_engine.pl"))).apply {
+            hasSolution()
+            close()
+        }
+    }
+
+    fun submitAnswers(answers: Set<Answer>): KnowledgeResult {
+        Query("inicjalizuj", emptyArray()).apply {
+            hasSolution()
+            close()
+        }
 
         answers.forEach { answer ->
             when (answer) {
                 is Answer.OptionAnswer -> {
                     answer.value.forEach { value ->
-                        Query("definiuj", arrayOf(Atom(answer.question.serializableName), *value.serializableName.toAtoms().toTypedArray())).hasSolution()
+                        Query("definiuj", arrayOf(Atom(answer.question.serializableName), *value.serializableName.toAtoms().toTypedArray())).apply {
+                            hasSolution()
+                            close()
+                        }
                     }
                 }
-                is Answer.NumericAnswer -> Query("definiuj", arrayOf(Atom(answer.question.serializableName), Integer(answer.value.toLong()))).hasSolution()
+                is Answer.NumericAnswer -> Query("definiuj", arrayOf(Atom(answer.question.serializableName), Integer(answer.value.toLong()))).apply {
+                    hasSolution()
+                    close()
+                }
             }
         }
         val x = Variable("X")
-        val lang = Query("sugerowany_jezyk", arrayOf(x)).allSolutions().map { s -> s["X"].toString().snakeToCamelCase() }.also(::println)
-        val method = Query("sugerowana_metodyka_projektowa", arrayOf(x)).allSolutions().map { s -> s["X"].toString().snakeToCamelCase() }.also(::println)
+        val lang = Query("sugerowany_jezyk", arrayOf(x)).allSolutions().map { s -> s["X"].toString().snakeToCamelCase() }.distinct().also(::println)
+        val method = Query("sugerowana_metodyka_projektowa", arrayOf(x)).allSolutions().map { s -> s["X"].toString().snakeToCamelCase() }.distinct().also(::println)
+        val stack = Query("sugerowany_stos_technologiczny", arrayOf(x)).allSolutions().map { s -> s["X"].toString().snakeToString() }.distinct().also(::println)
 
-        return lang to method
+        return KnowledgeResult(lang, method, stack)
     }
 
     private fun String.toAtoms() = split(" ").map { Atom(it) }
@@ -32,4 +47,9 @@ class KnowledgeBaseConnection {
         it.value.replace("_", "").toUpperCase()
     }.capitalize()
 
+    private fun String.snakeToString(): String = replace("_[a-zA-Z]".toRegex()) {
+        it.value.replace("_", " ")
+    }.capitalize()
 }
+
+data class KnowledgeResult(val suggestedLanguages: List<String>, val suggestedMethods: List<String>, val suggestedStack: List<String>)

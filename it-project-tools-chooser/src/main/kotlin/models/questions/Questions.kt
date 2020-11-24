@@ -37,7 +37,7 @@ val languageApplication = Question.SingleAnswer("Typ projektu", setOf(
 
 val projectLength = Question.NumericalAnswer("Czas trwania projektu (w miesiącach)", "miesiace_pracy")
 
-val teamSize = Question.NumericalAnswer("Rozmiar zepsołu projektowego", "liczba_czlonkow")
+val teamSize = Question.NumericalAnswer("Rozmiar zespołu projektowego", "liczba_czlonkow")
 
 
 val userType = Question.SingleAnswer("Poziom zaawansowania użytkownika", setOf(
