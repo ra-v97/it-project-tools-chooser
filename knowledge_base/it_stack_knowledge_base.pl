@@ -195,7 +195,7 @@ liczebnosc_zespolu(duzy_zespol_projektowy) :-
     zdefiniowane(liczba_czlonkow, N),
     integer(N),
     minimalna_liczba_czlonkow_duzego_zespolu(X),
-    N > X.
+    N > X, !.
 
 liczebnosc_zespolu(standardowy_zespol_projektowy) :- 
     zdefiniowane(liczba_czlonkow, N), 
@@ -204,7 +204,7 @@ liczebnosc_zespolu(standardowy_zespol_projektowy) :-
     N > X, !.
 
 liczebnosc_zespolu(standardowy_zespol_projektowy) :- 
-    not(zdefiniowane(liczba_czlonkow, _)).
+    not(zdefiniowane(liczba_czlonkow, _)), !.
 
 liczebnosc_zespolu(maly_zespol_projektowy)  :-
     zdefiniowane(liczba_czlonkow, N), 
