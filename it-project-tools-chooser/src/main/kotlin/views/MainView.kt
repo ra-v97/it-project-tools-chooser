@@ -39,7 +39,7 @@ class MainView : View(title = "It project tools chooser") {
             questionProperties.toList()
         }
 
-        val resultProperties = KnowledgeQuery.values().map { it.serializableName to (it.displayableName to SimpleStringProperty()) }.toMap()
+        val resultProperties = controller.resultItems.map { it.serializableName to (it.displayableName to SimpleStringProperty()) }.toMap()
 
         @Suppress("UNCHECKED_CAST")
         button("Sprawdź") {
