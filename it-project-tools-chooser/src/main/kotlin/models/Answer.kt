@@ -8,8 +8,8 @@ sealed class Answer {
             val value: Set<Question.Option>,
     ) : Answer()
 
-    data class NumericAnswer(
+    data class StringAnswer(
             override val question: Question,
-            val value: Int,
+            val value: String,
     ) : Answer()
 }
