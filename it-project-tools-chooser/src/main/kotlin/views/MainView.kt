@@ -9,13 +9,12 @@ import javafx.scene.layout.Pane
 import javafx.scene.text.FontWeight
 import pl.edu.agh.it.tools.controllers.SurveyController
 import pl.edu.agh.it.tools.models.Answer
-import pl.edu.agh.it.tools.models.KnowledgeQuery
 import pl.edu.agh.it.tools.models.Question
 import pl.edu.agh.it.tools.models.questions.questions
 import tornadofx.*
 
-private const val answersToDisplay = 1
-private const val decimalPlaces = 0
+private const val answersToDisplay = 4
+private const val decimalPlaces = 4
 
 class MainView : View(title = "It project tools chooser") {
     private val optionString = "option"
